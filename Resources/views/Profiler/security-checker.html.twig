@@ -82,9 +82,13 @@
         </span>
         <strong>Security Checker</strong>
         <span class="count">
-            <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countAdvisories() ? 'red' : 'green' }}">
-                {{ collector.countAdvisories() }}
-            </span>
+            {% if collector.vulnerabilityReport %}
+                <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countAdvisories() ? 'red' : 'green' }}">
+                    {{ collector.countAdvisories() }}
+                </span>
+            {% else %}
+                <span class="sf-toolbar-status" title="Undefined">?</span>
+            {% endif %}
         </span>
     </span>
 {% endblock %}
