@@ -4,7 +4,7 @@
     {% set icon %}
     <img width="28" height="28" title="Security Checker" alt="Security Checker" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABLNJREFUeNqklltMXFUUhv85MwxMh6ugIlKkXFqtYNGkxBptK32yiSlJQa2ADxqNfVHr5cHaB4t9rK2xPphI8VJpQcVU2+iDNpZEEm5NazVFRojQwjDADFAKdJira23WjGemZwhJd/Jl5sycs/+z1vr32ttU8dAjMBgmIoW4iygiSokCIpuwESFikXATw8Q/xL+Eh/AR4fgJLQYiSSLwMPE4wW9SIr+xiCb3BUVsXIR6iN+Jv0QwuJIQR7GeeErYRGRIhPHDTKQJHHEl8SjxI/ErMUL4ozfn3n2PXqScaCDq5fuaBCJGqbYT6yTVfD1JzEqaoxFxuu4n6ohaIi9+pszMTDS8UI+Kik3QzGb09vTi6xMtmJubi89Qmbw0j1apXdAi6hzWLqLaSMRkMqGmdrcSSkpKUr9t3PgA/H4/jjc1IxQKxT9STDwrZvmeo9OkwJzbnUQ+32W321G6vlR9qqeKi7Dn+eeiIjysVqsSLiwsVNcZmRkoKSlWv8vLc4aelgiTLRLBDmKDFBjF9MCBA/sxPDyCDxoPweOZxldfnlCTBAKBaJR+nx+eaQ9SU1NxsPF95ORk4/XX9sHj9kTSuFmcO8BmeIK+1OiKiIWFBQRDQdQ31KGgYC3cHg+cY2MYH3dhZmYabrcbY2NOTE1NYW1+Pl7d+wq2btuKps+aceniJYTD0WXEZlpgy0eKl6931/z8PFpPtcFMRX/7nbew5bEt0TosLS2piVJSluutaWbYbCn48PARtH/XrheJpJCtX6pJ4bKMPHv+tw4VHdcqLS1N8XnzFzjZcip6bbevweTkFLq7euJFIoONdh9HlMPFMrojGAzEOMrn82FwcAgpybG3h8MhleoEgx11p0U8r+n/qX2mRhU4644sJOsmZQOwiNlijpmJI6up2Q2n00nr6gbOnjmr/1s526jXoaqqCuuKCimiYIyll9/+1vTYbDZsf3IbrasA+q/0xwtxnUwWXbeNmmH/u+9RJFbk5eXho4+PqjdeabALGw8ewggtB6/35i0VYA+x0IyIRdoGWXgGyzZfVGupvLxsRaEJ1wQGBgZwffa60d+s7NGkF80a3bHkW4qKxqYv9to1MZFIhMcUcVWT/WPcaLOqr69DWdmD6m1V56V6WZIssOrqNnptFJWVm1FdvctIhOcc5P2KO0NY9iBeT9bIhNxE9735Br5p+xZHDh+Fy+VST3Z1dSubZ2dn03pqRVPTcaSnp+Oll19UncPhcOiFOFNniF9YyCutYoOsKY1XPbcUx4ADx459otJy+fKf6OzspFbkVDXpON+BC30XMDszi76+PuTm5ipHXvy/BQVl123jrJnozBDpDnuJPUQubn+E5SzxKdFCODXZAa8S7Ryi7Pe3O5zEaeJnNiULR7ZyDnNaNiq7RGWL7xirGDzPNdnsThL9snRiDifczrvZ1WLJHZJS+yrODZwq9jfb8yfiB/nuTXQKYrFeOViw7bfLNnKvnIasOtGwTMSZGCX+IM6xMXlp6U9Aic51HOqQ3NwlpyEWK5TtxCr3eSXVQ/JSV6Q2N1d7gIQY5Abxt3SOcxJRmm5L4QnnJGWLEkE4UW4tq8i9V5cixKUOK02uH/8JMAAAaaeMb7/kOgAAAABJRU5ErkJggg==">
         {% if collector.vulnerabilityReport %}
-            <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+            <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countAdvisories() ? 'red' : 'green' }}">
                 {{ collector.countAdvisories() }}
             </span>
         {% else %}
@@ -15,19 +15,37 @@
         <div class="sf-toolbar-info-piece">
             <b>Security Checker</b>
             <span>
-                <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues">Check now</a>
+                <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues now">Check now</a>
             </span>
         </div>
         <div class="sf-toolbar-info-piece">
             <b>Latest check</b>
             <span>
                 {% if collector.vulnerabilityReport %}
-                    <span class="sf-toolbar-status sf-toolbar-status-green" title="Your PHP project latest check for known security issues">
+                    <span title="Your PHP project latest check for known security issues">
                         {{ collector.vulnerabilityReport.createdAt|date('d/m/Y') }}
                     </span>
                 {% else %}
-                    <span class="sf-toolbar-status sf-toolbar-status-red" title="Your PHP project never checked for known security issues">
+                    <em title="Your PHP project never checked for known security issues">
                         never checked
+                    </em>
+                {% endif %}
+            </span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Status</b>
+            <span>
+                {% if collector.vulnerabilityReport %}
+                    <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countPackages() ? 'red' : 'green' }}">
+                        {% if 0 < collector.countPackages() %}
+                            Caution!
+                        {% else %}
+                            Great!
+                        {% endif %}
+                    </span>
+                {% else %}
+                    <span class="sf-toolbar-status">
+                        Undefined
                     </span>
                 {% endif %}
             </span>
@@ -35,7 +53,7 @@
         <div class="sf-toolbar-info-piece">
             <b>Vulnerabilities</b>
             {% if collector.vulnerabilityReport %}
-                <span class="sf-toolbar-status {{ 0 < collector.countPackages() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countPackages() ? 'red' : 'green' }}">
                     {{ collector.countPackages() }}
                 </span>
             {% else %}
@@ -45,7 +63,7 @@
         <div class="sf-toolbar-info-piece">
             <b>Advisories</b>
             {% if collector.vulnerabilityReport %}
-                <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countAdvisories() ? 'red' : 'green' }}">
                     {{ collector.countAdvisories() }}
                 </span>
             {% else %}
@@ -64,7 +82,7 @@
         </span>
         <strong>Security Checker</strong>
         <span class="count">
-            <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+            <span class="sf-toolbar-status sf-toolbar-status-{{ 0 < collector.countAdvisories() ? 'red' : 'green' }}">
                 {{ collector.countAdvisories() }}
             </span>
         </span>
@@ -87,61 +105,69 @@
                     {% endif %}
                 </td>
                 <td style="width: 25%;">
-                    <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues">Check now</a>
+                    <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues now">Check now</a>
                 </td>
             </tr>
         </tbody>
     </table>
 
     {% if collector.vulnerabilityReport %}
-        <h3>
-            {% if 0 < collector.countPackages() %}
-                Caution!
-            {% else %}
-                Great!
-            {% endif %}
-        </h3>
-        <p>
-            {% if 0 < collector.countPackages() %}
-                The checker detected <strong>{{ collector.countPackages() }}</strong> package(s)
-                that have <strong>{{ collector.countAdvisories() }}</strong> known<sup>*</sup>
-                vulnerabilities in your project.
-                <br/>
-                We recommend you to check the related security advisories and upgrade these dependencies.
-            {% else %}
-                The checker did not detected known<sup>*</sup> vulnerabilities in your project dependencies.
-            {% endif %}
-        </p>
-
-        <h2>Vulnerability Report</h2>
         <table>
-            <tbody>
-                {% for packageName, package in collector.vulnerabilityReport.packages %}
-                    <tr>
-                        <th colspan="2">
-                            <a href="https://packagist.org/packages/{{ packageName }}" target="_blank" title="Show package information">{{ packageName }}</a>
-                            ({{ package.version }})
-                        </th>
-                    </tr>
-                    {% for advisoryYamlLink, advisory in package.advisories %}
-                        <tr>
-                            <th>
-                                {{ advisory.cve }}
-                            </th>
-                            <td>
-                                <a href="{{ advisory.link }}" target="_blank" title="Show post with more information about vulnerability">
-                                    {{- advisory.title -}}
-                                </a>
-                                |
-                                <a href="https://github.com/FriendsOfPHP/security-advisories/blob/master/{{ advisoryYamlLink }}" target="_blank" title="Show more information in YAML format">
-                                    YAML
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-            </tbody>
+            <tr>
+                <td>
+                    <h2>
+                        {% if 0 < collector.countPackages() %}
+                            Caution!
+                        {% else %}
+                            Great!
+                        {% endif %}
+                    </h2>
+                    <p>
+                        {% if 0 < collector.countPackages() %}
+                            The checker detected <strong>{{ collector.countPackages() }}</strong> package(s)
+                            that have <strong>{{ collector.countAdvisories() }}</strong> known<sup>*</sup>
+                            vulnerabilities in your project.
+                            <br/>
+                            We recommend you to check the related security advisories and upgrade these dependencies.
+                        {% else %}
+                            The checker did not detected known<sup>*</sup> vulnerabilities in your project dependencies.
+                        {% endif %}
+                    </p>
+                </td>
+            </tr>
         </table>
+
+        {% if collector.vulnerabilityReport.packages|length %}
+            <h2>Vulnerability Report</h2>
+            <table>
+                <tbody>
+                    {% for packageName, package in collector.vulnerabilityReport.packages %}
+                        <tr>
+                            <th colspan="2">
+                                <a href="https://packagist.org/packages/{{ packageName }}" target="_blank" title="Show package information">{{ packageName }}</a>
+                                ({{ package.version }})
+                            </th>
+                        </tr>
+                        {% for advisoryYamlLink, advisory in package.advisories %}
+                            <tr>
+                                <th>
+                                    {{ advisory.cve }}
+                                </th>
+                                <td>
+                                    <a href="{{ advisory.link }}" target="_blank" title="Show post with more information about vulnerability">
+                                        {{- advisory.title -}}
+                                    </a>
+                                    |
+                                    <a href="https://github.com/FriendsOfPHP/security-advisories/blob/master/{{ advisoryYamlLink }}" target="_blank" title="Show more information in YAML format">
+                                        YAML
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
         <p>
             <strong><sup>*</sup>Disclaimer:</strong>
             <em>This checker can only detect vulnerabilities that are referenced in the SensioLabs security advisories database.</em>
