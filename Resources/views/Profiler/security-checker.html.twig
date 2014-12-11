@@ -8,25 +8,27 @@
                 {{ collector.countAdvisories() }}
             </span>
         {% else %}
-            <span class="sf-toolbar-status">?</span>
+            <span class="sf-toolbar-status" title="Undefined">?</span>
         {% endif %}
     {% endset %}
     {% set text %}
         <div class="sf-toolbar-info-piece">
             <b>Security Checker</b>
             <span>
-                <a href="{{ path('bw_security_check') }}">Check now</a>
+                <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues">Check now</a>
             </span>
         </div>
         <div class="sf-toolbar-info-piece">
-            <b>Last check date</b>
+            <b>Latest check</b>
             <span>
                 {% if collector.vulnerabilityReport %}
-                    <abbr title="at {{ collector.vulnerabilityReport.createdAt|date('H:i') }}">
+                    <span class="sf-toolbar-status sf-toolbar-status-green" title="Your PHP project latest check for known security issues">
                         {{ collector.vulnerabilityReport.createdAt|date('d/m/Y') }}
-                    </abbr>
+                    </span>
                 {% else %}
-                    <em>never checked</em>
+                    <span class="sf-toolbar-status sf-toolbar-status-red" title="Your PHP project never checked for known security issues">
+                        never checked
+                    </span>
                 {% endif %}
             </span>
         </div>
@@ -37,7 +39,7 @@
                     {{ collector.countPackages() }}
                 </span>
             {% else %}
-                <span class="sf-toolbar-status">?</span>
+                <span class="sf-toolbar-status" title="Undefined">?</span>
             {% endif %}
         </div>
         <div class="sf-toolbar-info-piece">
@@ -47,7 +49,7 @@
                     {{ collector.countAdvisories() }}
                 </span>
             {% else %}
-                <span class="sf-toolbar-status">?</span>
+                <span class="sf-toolbar-status" title="Undefined">?</span>
             {% endif %}
         </div>
     {% endset %}
@@ -74,16 +76,18 @@
     <table>
         <tbody>
             <tr>
-                <th style="width: 25%;">Last check date</th>
+                <th style="width: 25%;">Latest check</th>
                 <td>
                     {% if collector.vulnerabilityReport %}
-                        {{ collector.vulnerabilityReport.createdAt|date('D, d M Y H:i') }}
+                        <span title="Your PHP project latest check for known security issues">
+                            {{ collector.vulnerabilityReport.createdAt|date('D, d M Y H:i') }}
+                        </span>
                     {% else %}
-                        <em>never checked</em>
+                        <em title="Your PHP project never checked for known security issues">never checked</em>
                     {% endif %}
                 </td>
                 <td style="width: 25%;">
-                    <a href="{{ path('bw_security_check') }}">Check now</a>
+                    <a href="{{ path('bw_security_check') }}" title="Check your PHP project for known security issues">Check now</a>
                 </td>
             </tr>
         </tbody>
