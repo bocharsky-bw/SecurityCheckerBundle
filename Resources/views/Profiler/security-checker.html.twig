@@ -1,0 +1,146 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+    <img width="28" height="28" title="Security Checker" alt="Security Checker" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABLNJREFUeNqklltMXFUUhv85MwxMh6ugIlKkXFqtYNGkxBptK32yiSlJQa2ADxqNfVHr5cHaB4t9rK2xPphI8VJpQcVU2+iDNpZEEm5NazVFRojQwjDADFAKdJira23WjGemZwhJd/Jl5sycs/+z1vr32ttU8dAjMBgmIoW4iygiSokCIpuwESFikXATw8Q/xL+Eh/AR4fgJLQYiSSLwMPE4wW9SIr+xiCb3BUVsXIR6iN+Jv0QwuJIQR7GeeErYRGRIhPHDTKQJHHEl8SjxI/ErMUL4ozfn3n2PXqScaCDq5fuaBCJGqbYT6yTVfD1JzEqaoxFxuu4n6ohaIi9+pszMTDS8UI+Kik3QzGb09vTi6xMtmJubi89Qmbw0j1apXdAi6hzWLqLaSMRkMqGmdrcSSkpKUr9t3PgA/H4/jjc1IxQKxT9STDwrZvmeo9OkwJzbnUQ+32W321G6vlR9qqeKi7Dn+eeiIjysVqsSLiwsVNcZmRkoKSlWv8vLc4aelgiTLRLBDmKDFBjF9MCBA/sxPDyCDxoPweOZxldfnlCTBAKBaJR+nx+eaQ9SU1NxsPF95ORk4/XX9sHj9kTSuFmcO8BmeIK+1OiKiIWFBQRDQdQ31KGgYC3cHg+cY2MYH3dhZmYabrcbY2NOTE1NYW1+Pl7d+wq2btuKps+aceniJYTD0WXEZlpgy0eKl6931/z8PFpPtcFMRX/7nbew5bEt0TosLS2piVJSluutaWbYbCn48PARtH/XrheJpJCtX6pJ4bKMPHv+tw4VHdcqLS1N8XnzFzjZcip6bbevweTkFLq7euJFIoONdh9HlMPFMrojGAzEOMrn82FwcAgpybG3h8MhleoEgx11p0U8r+n/qX2mRhU4644sJOsmZQOwiNlijpmJI6up2Q2n00nr6gbOnjmr/1s526jXoaqqCuuKCimiYIyll9/+1vTYbDZsf3IbrasA+q/0xwtxnUwWXbeNmmH/u+9RJFbk5eXho4+PqjdeabALGw8ewggtB6/35i0VYA+x0IyIRdoGWXgGyzZfVGupvLxsRaEJ1wQGBgZwffa60d+s7NGkF80a3bHkW4qKxqYv9to1MZFIhMcUcVWT/WPcaLOqr69DWdmD6m1V56V6WZIssOrqNnptFJWVm1FdvctIhOcc5P2KO0NY9iBeT9bIhNxE9735Br5p+xZHDh+Fy+VST3Z1dSubZ2dn03pqRVPTcaSnp+Oll19UncPhcOiFOFNniF9YyCutYoOsKY1XPbcUx4ADx459otJy+fKf6OzspFbkVDXpON+BC30XMDszi76+PuTm5ipHXvy/BQVl123jrJnozBDpDnuJPUQubn+E5SzxKdFCODXZAa8S7Ryi7Pe3O5zEaeJnNiULR7ZyDnNaNiq7RGWL7xirGDzPNdnsThL9snRiDifczrvZ1WLJHZJS+yrODZwq9jfb8yfiB/nuTXQKYrFeOViw7bfLNnKvnIasOtGwTMSZGCX+IM6xMXlp6U9Aic51HOqQ3NwlpyEWK5TtxCr3eSXVQ/JSV6Q2N1d7gIQY5Abxt3SOcxJRmm5L4QnnJGWLEkE4UW4tq8i9V5cixKUOK02uH/8JMAAAaaeMb7/kOgAAAABJRU5ErkJggg==">
+        {% if collector.vulnerabilityReport %}
+            <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                {{ collector.countAdvisories() }}
+            </span>
+        {% else %}
+            <span class="sf-toolbar-status">?</span>
+        {% endif %}
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Security Checker</b>
+            <span>
+                <a href="{{ path('bw_security_check') }}">Check now</a>
+            </span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Last check date</b>
+            <span>
+                {% if collector.vulnerabilityReport %}
+                    <abbr title="at {{ collector.vulnerabilityReport.createdAt|date('H:i') }}">
+                        {{ collector.vulnerabilityReport.createdAt|date('d/m/Y') }}
+                    </abbr>
+                {% else %}
+                    <em>never checked</em>
+                {% endif %}
+            </span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Vulnerabilities</b>
+            {% if collector.vulnerabilityReport %}
+                <span class="sf-toolbar-status {{ 0 < collector.countPackages() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                    {{ collector.countPackages() }}
+                </span>
+            {% else %}
+                <span class="sf-toolbar-status">?</span>
+            {% endif %}
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Advisories</b>
+            {% if collector.vulnerabilityReport %}
+                <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                    {{ collector.countAdvisories() }}
+                </span>
+            {% else %}
+                <span class="sf-toolbar-status">?</span>
+            {% endif %}
+        </div>
+    {% endset %}
+
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': true } %}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+        <span class="icon">
+            <img width="30" height="30" title="Security Checker" alt="Security Checker" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABIRJREFUeNqsl2tMVEcUx8/evcqqVYNAeaQ+CxIIb0lR/KAJShQ0RdRaFRdQm9T0U2vTL20VjfFbtRqjxkcUpU0UtShi1fih0WAVtIUUq4Cry9O1LKhVQFhYPGdydr2sc9cFPckvuXt3Zv5z5sycOdeQEJcEOmZA/JBAZCoSiUxDQhF/xMTtXiJPkEeIBalFHiJ2pBcZkA2u6oiqLBiLzEY+QaKQEJ6MQdKHJmBD/kUqkHKkhifQ54sweRKOpCGZyAz20ADejfpNQSYjKUgqcgG5wivxUtvYGBIcqv09BolHViNmhOIw2gdRzxCN5klE8nM7h8MhEx6FJCB5yDJkkp5gauosWJK9BFJmpoDRaISmpmZZMwWZwPvDxGFwL7tLeATPbg2SzbGU2g8/fg/ffrcREhMTBJmLMiAoKAiuXr2m1+UD5CN2ogHpQJwkTC+CkaXISmSi3ghZWZ/Chq++fON9dHQUPLY9hnv3ar2Jf4g85Xh3KrwMFMuFHBdhgYGBkJ4+f1Dv9AXpuoH1/I/60hgao02XwVp+Kns7l4+O4o7j7FmwZWsBxMTGwI6fdop3R48UQvHJYqlwZ2eX+/mbjV/DGnMObN5UAOfOlrr3ExLHWjUqxzaZj4zbzpeWQXJyshjA6XTCyRPF0CzfRG4LCwuDz1YsF31Kz50XY3iYPx/PSBKO4Yw0aAeTWMHmLaAYFcjNMwt8tbKyC6IvjSE5ah+TJi1tBBIkG4A6Hi8skg7+S9GvAplRH4moy2iThSuaNDgku3TpsmAYRlqhJDxuiJnpXY20xqkyb2mTUHYiCw4JlncfwEvHIJ/vvPlpEBsXK9pcv/4ntLa2vpHXVZm3n69cIXbmcG39F+tex/tYkfs4ar1W+c4cZD/v3AVnTp8RHk3w94fDRw5JFkw/Ovm5a+Hps2fC48bGJlmTHhJ+IdvNVmuDeLY+tILdbvfMQrpme2SDqqpqb02oMHiu8I3h8Nay5p8an5e5urr6bU1Iy07CD/jG0DV7e7vPwrW1dW9rQvfyA4XLkwa92ihtXhpk493b29Prk3D+2jyIio7ytsxW5A4J36EVojzv2So+IR62b98GdXX1kJmxGEp+K5FmJHp36tRpMOfkgsPhgH3798L0yOnSu4S17hqwyqS7MosuFS57xA2lqipcvnJRDJSzygxtbW2iJ136STOS4FZlpfhNF8nt23+JDUgWEREOBw8dgL7+fshYmKldKZpxFbIDOUuFQB/PJIDz9hiXFyaTCXbv2gMtLS3uKXd1dYHlvgW6u7sFFotFvHNZR0cHlJeXi/8qblZovf0PKSFRejZwXe3HleEGLgjGv+c0iYcafkf2cunb46q5+nlnP2fPQzQF+/sQ/QM5htygRfOsqymRXOMUSoGZw5NQhino5LKWRI/z2C/06uoe/hRp5lUYyzEfMYQbbIC9qqdCBilkT//XHllPYZe4jb+BWjVZzcgTUCSTGOB6+QknJPKOqoRi/qTp9PXbiT437rP3N7jQT+RdH8BfByNZ0MEe2rnP33xsGllQWoq8EmAAvO54d80Fi60AAAAASUVORK5CYII=">
+        </span>
+        <strong>Security Checker</strong>
+        <span class="count">
+            <span class="sf-toolbar-status {{ 0 < collector.countAdvisories() ? 'sf-toolbar-status-red' : 'sf-toolbar-status-green' }}">
+                {{ collector.countAdvisories() }}
+            </span>
+        </span>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>Security Checker</h2>
+    <table>
+        <tbody>
+            <tr>
+                <th style="width: 25%;">Last check date</th>
+                <td>
+                    {% if collector.vulnerabilityReport %}
+                        {{ collector.vulnerabilityReport.createdAt|date('D, d M Y H:i') }}
+                    {% else %}
+                        <em>never checked</em>
+                    {% endif %}
+                </td>
+                <td style="width: 25%;">
+                    <a href="{{ path('bw_security_check') }}">Check now</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if collector.vulnerabilityReport %}
+        <h3>
+            {% if 0 < collector.countPackages() %}
+                Caution!
+            {% else %}
+                Great!
+            {% endif %}
+        </h3>
+        <p>
+            {% if 0 < collector.countPackages() %}
+                The checker detected <strong>{{ collector.countPackages() }}</strong> package(s)
+                that have <strong>{{ collector.countAdvisories() }}</strong> known<sup>*</sup>
+                vulnerabilities in your project.
+                <br/>
+                We recommend you to check the related security advisories and upgrade these dependencies.
+            {% else %}
+                The checker did not detected known<sup>*</sup> vulnerabilities in your project dependencies.
+            {% endif %}
+        </p>
+
+        <h2>Vulnerability Report</h2>
+        <table>
+            <tbody>
+                {% for packageName, package in collector.vulnerabilityReport.packages %}
+                    <tr>
+                        <th colspan="2">
+                            <a href="https://packagist.org/packages/{{ packageName }}" target="_blank" title="Show package information">{{ packageName }}</a>
+                            ({{ package.version }})
+                        </th>
+                    </tr>
+                    {% for advisoryYamlLink, advisory in package.advisories %}
+                        <tr>
+                            <th>
+                                {{ advisory.cve }}
+                            </th>
+                            <td>
+                                <a href="{{ advisory.link }}" target="_blank" title="Show post with more information about vulnerability">
+                                    {{- advisory.title -}}
+                                </a>
+                                |
+                                <a href="https://github.com/FriendsOfPHP/security-advisories/blob/master/{{ advisoryYamlLink }}" target="_blank" title="Show more information in YAML format">
+                                    YAML
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>
+            <strong><sup>*</sup>Disclaimer:</strong>
+            <em>This checker can only detect vulnerabilities that are referenced in the SensioLabs security advisories database.</em>
+        </p>
+    {% endif %}
+{% endblock %}

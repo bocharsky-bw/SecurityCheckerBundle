@@ -1,0 +1,21 @@
+{
+    "name": "bocharsky-bw/security-checker-bundle",
+    "description": "Security Checker wrapper for Symfony Web Debug Toolbar",
+    "keywords": ["bw", "security", "checker", "symfony2", "bundle", "debug", "toolbar"],
+    "homepage": "https://github.com/bocharsky-bw/SecurityCheckerBundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "victor",
+            "email": "bocharsky.bw@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/framework-bundle": "~2.0",
+        "sensiolabs/security-checker": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {"BW\\SecurityCheckerBundle\\": ""}
+    }
+}

@@ -1,0 +1,9 @@
+parameters:
+    security_checker_template: 'BWSecurityCheckerBundle:Profiler:security-checker.html.twig'
+
+services:
+    data_collector.your_collector_name:
+        class: BW\SecurityCheckerBundle\DataCollector\SecurityCollector
+        arguments: ['@=service("kernel").getCacheDir()']
+        tags:
+            - { name: data_collector, template: '%security_checker_template%', id: 'bw_security_checker' }
