@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class SecurityController
  * @package BW\SecurityCheckerBundle\Controller
- * @Route("/bw")
+ * @Route("/_bw")
  */
 class SecurityController extends Controller
 {
