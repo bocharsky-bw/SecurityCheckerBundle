@@ -3,6 +3,8 @@ SecurityCheckerBundle
 
 Security Checker wrapper for Symfony Web Debug Toolbar.
 
+![BW Security Checker](/Resources/images/bw-security-checker-review.jpg)
+
 Install
 -------
 
