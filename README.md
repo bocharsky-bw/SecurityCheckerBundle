@@ -12,7 +12,7 @@ Install
 
 Install bundle with `Composer` dependency manager first by running the command:
 
-`$ php composer.phar require "bocharsky-bw/security-checker-bundle:dev-master"`
+`$ composer require "bocharsky-bw/security-checker-bundle:dev-master"`
 
 `Composer` will install the bundle to your project's `vendor` directory.
 
