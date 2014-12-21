@@ -43,8 +43,8 @@ public function registerBundles()
 ``` yaml
 # app/config/routing_dev.yml
 _bw_security_checker:
-    resource: "@BWSecurityCheckerBundle/Controller/"
-    type:     annotation
+    resource: "@BWSecurityCheckerBundle/Resources/config/routing.yml"
+    prefix:   /_bw
 ```
 
 Congratulations!

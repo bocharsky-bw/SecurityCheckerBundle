@@ -1,0 +1,3 @@
+_bw_security_checker_controller:
+    resource: "@BWSecurityCheckerBundle/Controller/"
+    type:     annotation
