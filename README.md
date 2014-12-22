@@ -42,7 +42,7 @@ public function registerBundles()
 
 ``` yaml
 # app/config/routing_dev.yml
-_bw_security_checker:
+_bw_security_checker_bundle:
     resource: "@BWSecurityCheckerBundle/Resources/config/routing.yml"
     prefix:   /_bw
 ```
